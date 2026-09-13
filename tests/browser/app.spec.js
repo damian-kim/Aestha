@@ -1,12 +1,16 @@
 import { test, expect } from '@playwright/test';
 const enter=async page=>{await page.goto('/');await page.getByRole('button',{name:'Stay here'}).click();};
-const settings=async page=>{await page.mouse.move(400,719);await expect(page.locator('#settings-zone')).toHaveClass(/open/);};
+const settings=async page=>{await page.mouse.move(400,650);await expect(page.locator('#settings-zone')).toHaveClass(/open/);};
 test.use({ viewport:{width:1280,height:720} });
 test('first visit has fullscreen, then a centered frame and hidden settings',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');
   await expect(page.getByRole('button',{name:'Enter fullscreen'})).toBeVisible();
   await page.screenshot({path:'test-results/welcome-desktop.png'});
   await page.getByRole('button',{name:'Stay here'}).click();
+  await expect(page).toHaveTitle('rubato — a little space for your time');
+  await expect(page.locator('#timer-box')).toHaveCSS('border-top-width','0px');
+  await expect(page.locator('#timer-box')).toHaveCSS('background-color','rgba(0, 0, 0, 0)');
+  await expect(page.locator('.settings-beacon')).toBeVisible();
   const b=await page.locator('#timer-box').boundingBox();expect(b.x+b.width/2).toBe(640);expect(b.y+b.height/2).toBe(360);
   await expect(page.locator('#settings-panel')).toHaveCSS('opacity','0');await page.reload();await expect(page.locator('#welcome')).toBeHidden();expect(errors).toEqual([]);
 });
@@ -43,11 +47,38 @@ test('fullscreen enters and exits',async({page})=>{
   await page.goto('/');await page.getByRole('button',{name:'Enter fullscreen'}).click();await expect.poll(()=>page.evaluate(()=>!!document.fullscreenElement)).toBe(true);await expect(page.locator('#welcome')).toBeHidden();
   await page.evaluate(()=>document.exitFullscreen());await expect.poll(()=>page.evaluate(()=>!!document.fullscreenElement)).toBe(false);
 });
+test.describe('touch interaction',()=>{
+test.use({ hasTouch:true, isMobile:true });
 test('mobile fits the viewport and supports touch settings',async({page})=>{
   await page.setViewportSize({width:390,height:844});await page.goto('/');await page.screenshot({path:'test-results/welcome-mobile.png'});await page.getByRole('button',{name:'Stay here'}).click();
   const b=await page.locator('#timer-box').boundingBox();expect(b.x).toBeGreaterThanOrEqual(16);expect(b.x+b.width).toBeLessThanOrEqual(374);
-  await page.locator('#edge-access').click();await page.getByRole('button',{name:'Stars background'}).click();await page.screenshot({path:'test-results/settings-mobile.png'});expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(390);
+  await page.locator('#edge-access').tap();await page.getByRole('button',{name:'Stars background'}).tap();await page.screenshot({path:'test-results/settings-mobile.png'});expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(390);
+});
 });
 test('unavailable or corrupt storage does not stop the app',async({page})=>{
   await page.addInitScript(()=>{Storage.prototype.setItem=()=>{throw new Error('Unavailable');};});await page.goto('/');await page.getByRole('button',{name:'Stay here'}).click();await settings(page);await expect(page.locator('#storage-note')).toContainText('temporary');
+});
+test('rename migrates saved preferences and sessions without losing progress',async({page})=>{
+  await page.addInitScript(()=>{
+    localStorage.setItem('aestha.preferences.v1',JSON.stringify({mode:'stopwatch',theme:'forest',font:'mono',welcomed:true}));
+    localStorage.setItem('aestha.session.v1',JSON.stringify({mode:'stopwatch',running:false,anchor:0,elapsed:65000,remaining:300000,phase:0,finished:false,deadline:0}));
+  });
+  await page.goto('/');await expect(page.locator('#welcome')).toBeHidden();
+  await expect(page.locator('#time')).toHaveText('01:05');await expect(page.locator('#landscape')).toHaveCSS('background-image',/forest-photo\.webp/);
+  expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('rubato.session.v1')).elapsed)).toBe(65000);
+  await settings(page);await page.getByRole('button',{name:'Reset settings'}).click();await page.reload();await expect(page.locator('#time')).toHaveText('00:00');await expect(page.locator('#font')).toHaveValue('serif');
+});
+test('borderless resize affordances appear only when interacting',async({page})=>{
+  await enter(page);await page.mouse.move(10,10);await expect(page.locator('.se')).toHaveCSS('opacity','0');
+  await page.locator('#timer-box').hover();await expect(page.locator('.se')).toHaveCSS('opacity','1');await expect(page.locator('#timer-box')).toHaveCSS('border-width','0px');
+  await page.mouse.move(10,10);await expect(page.locator('.se')).toHaveCSS('opacity','0');await page.screenshot({path:'test-results/rubato-immersive.png'});
+});
+test('photographic themes load locally and preserve independent typography',async({page})=>{
+  await enter(page);await settings(page);await page.locator('#text-tone').selectOption('ivory');
+  for(const theme of ['forest','stars','dunes','alpine']) {
+    await page.locator(`[data-theme="${theme}"]`).click();
+    await expect(page.locator('#text-tone')).toHaveValue('ivory');
+    expect(await page.evaluate(async name=>{const img=new Image();img.src=`/assets/${name}-photo.webp`;await img.decode();return img.naturalWidth;},theme)).toBe(1672);
+  }
+  await page.reload();await expect(page.locator('#text-tone')).toHaveValue('ivory');
 });

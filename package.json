@@ -1,5 +1,5 @@
 {
-  "name": "aestha",
+  "name": "rubato",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -9,5 +9,8 @@
     "test": "node --test tests/*.test.mjs",
     "test:browser": "playwright test"
   },
-  "devDependencies": { "@playwright/test": "^1.58.2" }
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "sharp": "^0.35.4"
+  }
 }

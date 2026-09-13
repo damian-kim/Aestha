@@ -2,7 +2,7 @@ import http from 'node:http';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 const root = process.cwd();
-const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.ttf':'font/ttf' };
+const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.ttf':'font/ttf', '.webp':'image/webp', '.png':'image/png' };
 http.createServer(async (req, res) => {
   try {
     const name = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
@@ -12,4 +12,4 @@ http.createServer(async (req, res) => {
     res.writeHead(200, { 'Content-Type': types[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
     res.end(data);
   } catch { res.writeHead(404); res.end('Not found'); }
-}).listen(5173, '127.0.0.1', () => console.log('Aestha: http://127.0.0.1:5173'));
+}).listen(5173, '127.0.0.1', () => console.log('rubato: http://127.0.0.1:5173'));

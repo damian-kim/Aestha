@@ -1,16 +1,20 @@
 import { DEFAULTS, clamp, readPreferences, readSession, freshSession, milliseconds, nextAlarm, toggleSession, advanceSession, formatDuration, phaseName } from './time.js';
 
 const $ = id => document.getElementById(id);
-const PREFS_KEY = 'aestha.preferences.v1', SESSION_KEY = 'aestha.session.v1';
+const PREFS_KEY = 'rubato.preferences.v1', SESSION_KEY = 'rubato.session.v1';
 function load(key) { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } }
 function save(key, value) { try { localStorage.setItem(key,JSON.stringify(value)); } catch { $('storage-note').textContent='Preferences are temporary; browser storage is unavailable.'; } }
-let prefs = readPreferences(load(PREFS_KEY));
-let session = readSession(load(SESSION_KEY),prefs);
+// Read the original keys once so the rename preserves existing preferences and timers.
+const savedPreferences = load(PREFS_KEY);
+let prefs = readPreferences(savedPreferences ?? load('aestha.preferences.v1'));
+let session = readSession(savedPreferences ? load(SESSION_KEY) : load('aestha.session.v1'),prefs);
 let pendingMode = prefs.mode;
 let drag = null, noticeTimeout, settingsTimeout;
 const fonts = { serif:"Georgia, 'Times New Roman', serif", sans:"'DM Sans', sans-serif", mono:"'DM Mono', monospace", light:"Manrope, sans-serif" };
 const names = {stopwatch:'Stopwatch',timer:'Timer',pomodoro:'Pomodoro',alarm:'Alarm',clock:'Clock'};
 const themes = {alpine:'Alpine',forest:'Forest',stars:'Stars',dunes:'Dunes',paper:'Paper'};
+const themeImage = id => id === 'paper' ? '/assets/paper.svg' : `/assets/${id}-photo.webp`;
+const themeThumbnail = id => id === 'paper' ? '/assets/paper.svg' : `/assets/${id}-thumb.webp`;
 const box = $('timer-box');
 const canvas = document.createElement('canvas');
 const measure = canvas.getContext('2d');
@@ -21,8 +25,10 @@ function notify(message, duration=5000) {
   if (duration) noticeTimeout=setTimeout(()=>$('notification').hidden=true,duration);
 }
 function applyPreferences() {
-  $('landscape').style.backgroundImage=`url('/assets/${prefs.theme}.svg')`;
+  $('landscape').style.backgroundImage=`url('${themeImage(prefs.theme)}')`;
   document.documentElement.style.setProperty('--timer-font',fonts[prefs.font]);
+  document.documentElement.dataset.tone=prefs.tone;
+  $('text-tone').value=prefs.tone;
   $('font').value=prefs.font; $('font-size').value=prefs.fontSize; $('size-label').textContent=`${prefs.fontSize} px`;
   document.querySelectorAll('[data-theme]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.theme===prefs.theme)));
   applyFrame(); render();
@@ -72,7 +78,7 @@ function render(now=Date.now()) {
   $('restart').setAttribute('aria-label',`Reset ${prefs.mode}`);
   $('restart').hidden=prefs.mode==='alarm';
   document.querySelector('.action-divider').hidden=prefs.mode==='alarm';
-  document.title=session.running?`${prefs.mode==='alarm'?formatDuration(milliseconds(session,now),true):text} · ${names[prefs.mode]} — Aestha`:'Aestha — a little space for your time';
+  document.title=session.running?`${prefs.mode==='alarm'?formatDuration(milliseconds(session,now),true):text} · ${names[prefs.mode]} — rubato`:'rubato — a little space for your time';
 }
 function tick() {
   const now=Date.now();
@@ -130,11 +136,11 @@ document.addEventListener('pointerdown',event=>{
 
 for(const [id,label] of Object.entries(themes)) {
   const button=document.createElement('button'); button.className='theme-option';button.dataset.theme=id;button.setAttribute('aria-label',`${label} background`);
-  button.innerHTML=`<span class="swatch" style="background-image:url('/assets/${id}.svg')"></span><span class="theme-label">${label}</span>`;
+  button.innerHTML=`<span class="swatch" style="background-image:url('${themeThumbnail(id)}')"></span><span class="theme-label">${label}</span>`;
   button.addEventListener('click',()=>{prefs.theme=id;applyPreferences();save(PREFS_KEY,prefs);});$('theme-grid').append(button);
 }
-function openSettings() {clearTimeout(settingsTimeout);$('settings-zone').classList.add('open');$('settings-panel').inert=false;}
-function closeSettings() {clearTimeout(settingsTimeout);$('settings-zone').classList.remove('open');$('settings-panel').inert=true;}
+function openSettings() {clearTimeout(settingsTimeout);$('settings-zone').classList.add('open');$('settings-panel').inert=false;$('edge-access').setAttribute('aria-expanded','true');}
+function closeSettings() {clearTimeout(settingsTimeout);$('settings-zone').classList.remove('open');$('settings-panel').inert=true;$('edge-access').setAttribute('aria-expanded','false');}
 $('settings-zone').addEventListener('pointerenter',event=>{if(event.pointerType==='mouse'&&!drag)openSettings();});
 $('settings-zone').addEventListener('pointerleave',event=>{if(event.pointerType==='mouse')settingsTimeout=setTimeout(closeSettings,220);});
 $('edge-access').addEventListener('focus',openSettings);
@@ -142,6 +148,7 @@ $('edge-access').addEventListener('click',openSettings);
 $('settings-zone').addEventListener('focusout',()=>setTimeout(()=>{if(!$('settings-zone').contains(document.activeElement)&&!$('settings-zone').matches(':hover'))closeSettings();},0));
 $('close-settings').addEventListener('click',()=>{document.activeElement.blur();closeSettings();});
 $('font').addEventListener('change',()=>{prefs.font=$('font').value;applyPreferences();fitText();save(PREFS_KEY,prefs);});
+$('text-tone').addEventListener('change',()=>{prefs.tone=$('text-tone').value;applyPreferences();save(PREFS_KEY,prefs);});
 $('font-size').addEventListener('input',()=>{prefs.fontSize=Number($('font-size').value);$('size-label').textContent=`${prefs.fontSize} px`;fitText();save(PREFS_KEY,prefs);});
 $('recenter').addEventListener('click',()=>{prefs.frame=structuredClone(DEFAULTS.frame);applyFrame();fitText();save(PREFS_KEY,prefs);});
 $('reset-settings').addEventListener('click',()=>{
@@ -196,6 +203,6 @@ window.addEventListener('storage',event=>{
 });
 applyPreferences(); fitText(); tick();
 if(!prefs.welcomed){$('welcome').hidden=false;document.body.classList.add('welcoming');}
-save(PREFS_KEY,prefs);
+persist();
 document.fonts.ready.then(fitText);
 setInterval(tick,100);
