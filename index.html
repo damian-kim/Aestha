@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#e5e6d8" />
+  <meta name="description" content="A little space for your time. A beautifully minimal stopwatch, timer, Pomodoro, alarm and clock. No accounts. No distractions." />
+  <title>Aestha — a little space for your time</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="preload" href="/assets/alpine.svg" as="image" />
+</head>
+<body>
+  <div class="landscape" id="landscape" aria-hidden="true"></div>
+  <main aria-label="Aestha time display">
+    <section id="timer-box" class="timer-box" aria-label="Movable time display">
+      <button id="mode-trigger" class="mode-trigger" aria-expanded="false" aria-controls="mode-menu"><span id="mode-label">Stopwatch</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></button>
+      <div id="time" class="time" role="timer" aria-live="off">00:00</div>
+      <div id="phase" class="phase"></div>
+      <div class="timer-actions" id="timer-actions">
+        <button id="toggle" class="text-button" aria-label="Start stopwatch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m5 3 8 5-8 5Z"/></svg><span>Start</span></button>
+        <span class="action-divider"></span>
+        <button id="restart" class="icon-button" aria-label="Reset stopwatch"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 7a6 6 0 1 1 0 6M4 3v4h4"/></svg></button>
+      </div>
+      <span class="resize-handle nw" data-corner="nw" aria-hidden="true"></span><span class="resize-handle ne" data-corner="ne" aria-hidden="true"></span><span class="resize-handle sw" data-corner="sw" aria-hidden="true"></span><span class="resize-handle se" data-corner="se" aria-hidden="true"></span>
+    </section>
+    <section id="mode-menu" class="popover" aria-label="Choose and configure a mode" hidden>
+      <div class="popover-heading"><span>MAKE TIME FOR YOURSELF</span><button class="icon-button" id="close-mode" aria-label="Close mode settings">×</button></div>
+      <div class="mode-options" role="group" aria-label="Time mode">
+        <button data-mode="stopwatch">Stopwatch</button><button data-mode="timer">Timer</button><button data-mode="pomodoro">Pomodoro</button><button data-mode="alarm">Alarm</button><button data-mode="clock">Clock</button>
+      </div>
+      <form id="mode-form"><div id="mode-fields"></div><p id="mode-error" class="form-error" role="alert"></p><button class="primary-button" id="apply-mode" type="submit">Set timer <span>↗</span></button></form>
+    </section>
+  </main>
+  <div id="welcome" class="welcome" hidden>
+    <header class="intro-header"><a class="wordmark" href="/" aria-label="Aestha home">aestha</a><span class="intro-note">NOTHING EXTRA. JUST YOUR TIME.</span></header>
+    <section class="intro-bottom" aria-label="Welcome to Aestha">
+      <p class="eyebrow">A LITTLE SPACE FOR YOUR TIME</p>
+      <h1>Make room for the moment.</h1>
+      <div class="intro-buttons"><button id="welcome-fullscreen" class="primary-button">Enter fullscreen <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4"/></svg></button><button id="dismiss-welcome" class="quiet-button">Stay here <span>↗</span></button></div>
+      <p class="intro-hint">Click the mode to change it. Hover the bottom edge for settings.<br><span>Drag the frame to find your place.</span></p>
+    </section>
+  </div>
+  <aside class="settings-zone" id="settings-zone" aria-label="Display settings">
+    <button class="edge-access" id="edge-access" aria-label="Reveal display settings"></button>
+    <div class="settings-panel" id="settings-panel" inert>
+      <div class="settings-heading"><span class="wordmark">aestha</span><span>Your space, your pace.</span><button id="close-settings" class="icon-button" aria-label="Hide settings">×</button></div>
+      <div class="settings-content">
+        <section class="theme-section"><h2>THE VIEW</h2><div class="theme-grid" id="theme-grid"></div></section>
+        <section class="type-section"><h2>THE DETAILS</h2><label class="setting-row" for="font">Typeface<select id="font"><option value="serif">Editorial</option><option value="sans">Modern</option><option value="mono">Monospace</option><option value="light">Light</option></select></label><label class="setting-row" for="font-size">Text size <span id="size-label">112 px</span></label><input id="font-size" aria-label="Timer text size" type="range" min="36" max="180" step="2" value="112" /><div class="utility-row"><button id="recenter" class="quiet-button">Recenter frame</button><button id="reset-settings" class="quiet-button">Reset settings</button></div></section>
+      </div>
+      <div class="settings-footer"><span id="storage-note">Remembered in this browser. No account needed.</span><button id="fullscreen" class="text-button">Fullscreen <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4"/></svg></button></div>
+    </div>
+  </aside>
+  <div id="notification" class="notification" role="status" hidden><span id="notification-text"></span><button id="dismiss-notification" class="icon-button" aria-label="Dismiss notification">×</button></div>
+  <noscript><div class="noscript">Aestha needs JavaScript to keep time. Please enable it in your browser.</div></noscript>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
