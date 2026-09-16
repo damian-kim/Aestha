@@ -1,3 +1,4 @@
+import { THEME_IDS } from './themes.js';
 export const MODES = ['stopwatch', 'timer', 'pomodoro', 'alarm', 'clock'];
 export const DEFAULTS = {
   theme: 'alpine', font: 'serif', fontSize: 112, tone: 'ink', mode: 'stopwatch',
@@ -9,7 +10,7 @@ export function clamp(value, min, max) { return Math.min(max, Math.max(min, valu
 export function readPreferences(raw) {
   const p = structuredClone(DEFAULTS);
   if (!raw || typeof raw !== 'object') return p;
-  for (const [key, values] of Object.entries({ theme: ['alpine','forest','stars','dunes','paper'], font: ['serif','sans','mono','light'], tone: ['ink','ivory'], mode: MODES })) if (values.includes(raw[key])) p[key] = raw[key];
+  for (const [key, values] of Object.entries({ theme: THEME_IDS, font: ['serif','sans','mono','light'], tone: ['ink','ivory'], mode: MODES })) if (values.includes(raw[key])) p[key] = raw[key];
   for (const [key, min, max] of [['fontSize',36,180],['duration',1,359999],['focus',1,180],['shortBreak',1,60],['longBreak',1,120]]) if (Number.isFinite(raw[key])) p[key] = clamp(raw[key], min, max);
   for (const key of ['autoAdvance','clock24','seconds','welcomed']) if (typeof raw[key] === 'boolean') p[key] = raw[key];
   if (typeof raw.alarm === 'string' && /^([01]\d|2[0-3]):[0-5]\d$/.test(raw.alarm)) p.alarm = raw.alarm;

@@ -4,7 +4,7 @@ const settings=async page=>{await page.mouse.move(400,650);await expect(page.loc
 test.use({ viewport:{width:1280,height:720} });
 test('first visit has fullscreen, then a centered frame and hidden settings',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');
-  await expect(page.getByRole('button',{name:'Enter fullscreen'})).toBeVisible();
+  await expect(page.locator('#welcome-fullscreen')).toBeVisible();
   await page.screenshot({path:'test-results/welcome-desktop.png'});
   await page.getByRole('button',{name:'Stay here'}).click();
   await expect(page).toHaveTitle('rubato — a little space for your time');
@@ -44,8 +44,18 @@ test('frame drags, resizes, persists and resets',async({page})=>{
   await settings(page);await page.getByRole('button',{name:'Reset settings'}).click();expect((await page.locator('#timer-box').boundingBox()).width).toBe(510);await page.getByRole('button',{name:'Undo',exact:true}).click();expect((await page.locator('#timer-box').boundingBox()).width).toBe(resized.width);
 });
 test('fullscreen enters and exits',async({page})=>{
-  await page.goto('/');await page.getByRole('button',{name:'Enter fullscreen'}).click();await expect.poll(()=>page.evaluate(()=>!!document.fullscreenElement)).toBe(true);await expect(page.locator('#welcome')).toBeHidden();
+  await page.goto('/');await page.locator('#welcome-fullscreen').click();await expect.poll(()=>page.evaluate(()=>!!document.fullscreenElement)).toBe(true);await expect(page.locator('#welcome')).toBeHidden();
   await page.evaluate(()=>document.exitFullscreen());await expect.poll(()=>page.evaluate(()=>!!document.fullscreenElement)).toBe(false);
+});
+test('fullscreen is directly accessible on return visits without opening settings',async({page})=>{
+  await enter(page);await page.reload();await expect(page.locator('#welcome')).toBeHidden();
+  await expect(page.locator('#quick-fullscreen')).toBeVisible();
+  await page.locator('#quick-fullscreen').click();
+  await expect.poll(()=>page.evaluate(()=>!!document.fullscreenElement)).toBe(true);
+  await expect(page.locator('#quick-fullscreen')).toHaveAccessibleName('Exit fullscreen');
+  await page.locator('#quick-fullscreen').click();
+  await expect.poll(()=>page.evaluate(()=>!!document.fullscreenElement)).toBe(false);
+  await expect(page.locator('#quick-fullscreen')).toHaveAccessibleName('Enter fullscreen');
 });
 test.describe('touch interaction',()=>{
 test.use({ hasTouch:true, isMobile:true });
@@ -81,4 +91,26 @@ test('photographic themes load locally and preserve independent typography',asyn
     expect(await page.evaluate(async name=>{const img=new Image();img.src=`/assets/${name}-photo.webp`;await img.decode();return img.naturalWidth;},theme)).toBe(1672);
   }
   await page.reload();await expect(page.locator('#text-tone')).toHaveValue('ivory');
+});
+test('50-scene gallery filters, searches, selects and remembers a new scene',async({page})=>{
+  await enter(page);await settings(page);await expect(page.locator('[data-theme]')).toHaveCount(50);
+  await expect(page.locator('#theme-status')).toContainText('50 of 50');
+  await page.locator('#theme-category').selectOption('Space');await expect(page.locator('[data-theme]:visible')).toHaveCount(8);
+  await page.locator('[data-theme="outer-space"]').click();await expect(page.locator('#landscape')).toHaveCSS('background-image',/outer-space-photo/);
+  await page.locator('#theme-search').fill('Fuji');await expect(page.locator('#theme-empty')).toBeVisible();
+  await page.locator('#theme-category').selectOption('');await expect(page.locator('[data-theme]:visible')).toHaveCount(1);
+  await page.locator('[data-theme="mount-fuji"]').click();await expect(page.locator('#landscape')).toHaveCSS('background-image',/mount-fuji-photo/);
+  await page.reload();await expect(page.locator('#landscape')).toHaveCSS('background-image',/mount-fuji-photo/);
+  await settings(page);await page.screenshot({path:'test-results/rubato-gallery-desktop.png'});
+});
+test('fast switching keeps the last scene and does not fetch every full background',async({page})=>{
+  const fullRequests=[];page.on('request',request=>{if(request.url().includes('-photo.webp'))fullRequests.push(request.url());});
+  await enter(page);await settings(page);
+  expect(fullRequests.every(url=>url.includes('alpine-photo.webp'))).toBe(true);
+  await page.route('**/beach-photo.webp',async route=>{await new Promise(resolve=>setTimeout(resolve,300));await route.continue();});
+  const delayedBackground=page.waitForResponse('**/beach-photo.webp');
+  await page.locator('#theme-search').fill('beach');await page.locator('[data-theme="beach"]').click();
+  await page.locator('#theme-search').fill('Fuji');await page.locator('[data-theme="mount-fuji"]').click();
+  await expect(page.locator('#landscape')).toHaveCSS('background-image',/mount-fuji-photo/);
+  await delayedBackground;await expect(page.locator('#landscape')).toHaveCSS('background-image',/mount-fuji-photo/);
 });

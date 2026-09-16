@@ -23,7 +23,8 @@ Import this GitHub repository into Vercel. The included `vercel.json` sets `npm 
 - Click the mode label to select and configure a mode. Applying a configuration resets the current session; an alarm is armed immediately.
 - Hover the display to reveal start, pause, reset, and subtle corner resize marks. Drag the time display to move it. There is no visible enclosing frame, even while resizing.
 - Hover anywhere in the bottom 100 pixels to reveal settings; the gear marks the region. On touch screens, tap the gear or the bottom 84 pixels. The first-visit invitation uses a smaller region to keep its buttons clear. Settings are also reachable through normal keyboard focus.
-- Themes change only the background. Font size and Ink/Ivory text tone are independent preferences, so text can suit any position on a photograph. Font size adapts down when needed to fit the display.
+- Browse 50 backgrounds using search and six categories: Nature, Space, Interiors, Illustrated, Places, and Abstract. The gallery scrolls inside settings. Small thumbnails load as needed; full backgrounds load only when selected.
+- Themes change only the background. Font size and Ink/Ivory text tone are independent preferences, so text can suit any position on a photograph. Font size adapts down when needed to fit the display. Ivory works well with the darker space and interior scenes.
 - Reset settings restores defaults; the temporary **Undo** action restores the previous configuration and session.
 
 ## Local data and timing
@@ -32,7 +33,7 @@ Preferences are stored under `rubato.preferences.v1` in `localStorage`; the curr
 
 Timers use timestamps rather than counting interval ticks, so elapsed time is recovered after tab throttling, refreshes, or device sleep. System clock adjustments can affect active timers. Pomodoro automatic transitions reconcile missed phases. Alarms are silent visual reminders for the next occurrence of a local time: the page must be open, and a sleeping device cannot display a reminder until it wakes. No background notifications or service worker are used.
 
-Alpine, Forest, Dunes, and Stars use original AI-generated photographic-style images, served as optimized WebP files with separate thumbnails. Paper remains an SVG. See [background assets and generation prompts](assets/BACKGROUNDS.md) for provenance and native resolution. Fonts are bundled locally with their SIL Open Font Licenses, with system fallbacks. The page makes no third-party requests.
+The collection contains 49 AI-generated photographic-style and illustrated images, served as optimized WebP files with separate thumbnails, plus the Paper SVG. See [background assets and generation prompts](assets/BACKGROUNDS.md) for provenance and native resolution, and [the contact sheet](design/background-contact-sheet.webp) to see all 50 at once. Fonts are bundled locally with their SIL Open Font Licenses, with system fallbacks. The page makes no third-party requests.
 
 ## Verification
 

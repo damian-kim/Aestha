@@ -1,0 +1,275 @@
+{
+  "method": "Built-in image_gen tool, one generation per scene",
+  "jobs": [
+    {
+      "id": "outer-space",
+      "name": "Outer space",
+      "category": "Space",
+      "prompt": "Use case: photorealistic-natural. A sweeping view from deep outer space, a richly detailed spiral galaxy angled across the upper left and a tiny distant blue planet low at the right edge, thousands of fine stars, indigo velvet darkness and soft cosmic dust. Astronomical cinematic realism; calm unobstructed center. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "nebula",
+      "name": "Nebula",
+      "category": "Space",
+      "prompt": "Use case: photorealistic-natural. Ethereal interstellar nebula, intricately sculpted clouds of teal and dusty rose gas along opposite edges, delicate young star clusters, a quiet deep-blue central expanse. Tasteful realistic astronomical imagery, not rainbow oversaturation. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "earthrise",
+      "name": "Earthrise",
+      "category": "Space",
+      "prompt": "Use case: photorealistic-natural. Earth rising above the finely cratered lunar horizon, small luminous blue-white planet in the upper right, charcoal space, detailed grey moon rock in the lower quarter, solemn realistic space photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "saturn",
+      "name": "Saturn",
+      "category": "Space",
+      "prompt": "Use case: photorealistic-natural. Majestic Saturn with intricately resolved pale gold rings sweeping diagonally through the upper third, tiny icy moons and faint stars against broad blue-black space, restrained realistic planetary imagery. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "lunar-surface",
+      "name": "Lunar quiet",
+      "category": "Space",
+      "prompt": "Use case: photorealistic-natural. View across a lonely lunar plain, detailed powdery regolith and crater ridges in the lower third, grazing silver sunlight, a small distant Earth near the upper left and silent black sky. Photographic realism. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "orbital-window",
+      "name": "Orbital window",
+      "category": "Space",
+      "prompt": "Use case: photorealistic-natural. Inside an unoccupied spacecraft observation cupola, architectural window ribs framing the far edges, curved luminous Earth and thin blue atmosphere visible through the lower windows, still deep space beyond, realistic materials and restrained cinematic lighting. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "comet",
+      "name": "Comet trail",
+      "category": "Space",
+      "prompt": "Use case: photorealistic-natural. A delicate icy comet with fine pale cyan dust tail traversing the upper third of a dense realistic star field, muted violet interstellar haze on the edges and spacious deep blue center. Beautiful restrained long-exposure astronomy. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "beach",
+      "name": "Beach",
+      "category": "Nature",
+      "prompt": "Use case: photorealistic-natural. A tranquil tropical beach at dawn, tiny ripples in clear turquoise water, soft pale sand, palms framing only the outer edges, distant islands in sea mist, delicate shoreline foam and natural shell textures. Fine-art landscape photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "mount-fuji",
+      "name": "Mount Fuji",
+      "category": "Nature",
+      "prompt": "Use case: photorealistic-natural. Snow-capped Mount Fuji beyond Lake Kawaguchi at soft spring dawn, precise volcanic silhouette in the upper third, pastel pink cherry blossoms framing the upper left edge, placid reflective water through the center, fine snow ridges and blossom petals. Detailed natural travel photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "waterfall",
+      "name": "Waterfall",
+      "category": "Nature",
+      "prompt": "Use case: photorealistic-natural. A broad fine-thread waterfall cascading over weathered mossy rock ledges into a still jade pool, delicate floating mist, detailed ferns and wet stones at the sides, tranquil overcast light. Authentic lush landscape photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "redwoods",
+      "name": "Redwood grove",
+      "category": "Nature",
+      "prompt": "Use case: photorealistic-natural. Immense old-growth redwoods rising at the outer thirds, richly textured reddish bark, tiny fern fronds and soft moss, pale sunbeams diffused by morning mist in the central opening. Grand yet hushed natural forest photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "autumn-lake",
+      "name": "Autumn lake",
+      "category": "Nature",
+      "prompt": "Use case: photorealistic-natural. A still northern lake surrounded by intricate gold, russet and muted red autumn trees, soft grey dawn mist above the water, detailed scattered leaves along the foreground edge, spacious reflective middle. Fine-art natural photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "bamboo",
+      "name": "Bamboo light",
+      "category": "Nature",
+      "prompt": "Use case: photorealistic-natural. A serene Japanese bamboo grove with slender richly detailed green stems receding into luminous mist, scattered delicate leaves, small patches of moss, gentle morning light, an open central aisle. Natural immersive photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "snowfield",
+      "name": "Snowfield",
+      "category": "Nature",
+      "prompt": "Use case: photorealistic-natural. An untouched alpine snowfield under pale winter dawn, gently sculpted snow ripples, a few frosted spruce trees far to the sides, distant soft mountain ridges, detailed ice crystals at the foreground, restrained blue-white palette. Natural photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "lavender",
+      "name": "Lavender dusk",
+      "category": "Nature",
+      "prompt": "Use case: photorealistic-natural. A Provençal lavender field at blue-gold dusk, detailed purple flower spikes along the lower edges, rolling soft hills and a pale peach sky, no structures, no people. Spacious tranquil landscape photography with subtle evening haze. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "iceland",
+      "name": "Black sand",
+      "category": "Nature",
+      "prompt": "Use case: photorealistic-natural. A remote Icelandic black-sand beach, basalt sea stacks at the left horizon, silver ocean foam tracing a sweeping shoreline, moody mist, fine wet pebbles and volcanic sand textures. Restrained natural landscape photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "underwater",
+      "name": "Underwater",
+      "category": "Nature",
+      "prompt": "Use case: photorealistic-natural. A peaceful underwater kelp forest, delicate golden kelp fronds framing the sides, fine sun rays filtering through turquoise surface water, a few tiny distant fish, open blue-green central water, authentic high-detail underwater photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "cloudscape",
+      "name": "Above the clouds",
+      "category": "Nature",
+      "prompt": "Use case: photorealistic-natural. View above a soft sea of richly detailed cumulus clouds at sunrise, pearlescent whites and restrained apricot highlights, pale blue atmosphere, open calm sky through the center. Airborne fine-art photography with delicate volumetric detail. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "tropical-rain",
+      "name": "Tropical rain",
+      "category": "Nature",
+      "prompt": "Use case: photorealistic-natural. Rain falling softly through a lush tropical garden, exceptionally detailed broad banana and monstera leaves on the sides covered in tiny droplets, central misty clearing, muted jade greens and gentle overcast light. Photographic realism, no structures. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "fireplace",
+      "name": "Fireplace",
+      "category": "Interiors",
+      "prompt": "Use case: photorealistic-natural. A cozy stone fireplace in a quiet rustic room, finely detailed dancing flames and glowing embers positioned toward the left third, stacked firewood, wool blanket and an empty armchair at an edge, warm lamplight on textured plaster, calm central wall. Intimate interior photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "window-desk",
+      "name": "Window-side study",
+      "category": "Interiors",
+      "prompt": "Use case: photorealistic-natural. An inviting window-side wooden desk arranged for studying: open textbooks with non-readable natural page markings, handwritten notes, notebooks, pencils, pen cup, ceramic tea mug and a warm desk lamp. Rain-speckled window with a softly blurred green garden. Study materials across the lower third, calm diffused window light in the middle, rich real paper, wood and glass textures, no person. Detailed interior photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "library",
+      "name": "Quiet library",
+      "category": "Interiors",
+      "prompt": "Use case: photorealistic-natural. A beautiful old university library, tall richly detailed wooden bookshelves framing the sides, reading tables and softly glowing brass lamps low in the image, warm sunlight from high windows, a spacious calm central aisle, no people, no legible text. Atmospheric interior photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "rainy-cafe",
+      "name": "Rainy café",
+      "category": "Interiors",
+      "prompt": "Use case: photorealistic-natural. An empty quiet corner of a small café on a rainy afternoon, raindrops in sharp detail on a broad window, warm pendant lamps, round wooden table with a coffee cup near the lower left, blurred amber street lights beyond, calm muted colors. Cinematic natural interior photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "greenhouse",
+      "name": "Glasshouse",
+      "category": "Interiors",
+      "prompt": "Use case: photorealistic-natural. A Victorian glass greenhouse filled with exquisite ferns, climbing vines and small potted plants along the sides, weathered iron window arches, soft morning condensation, central open path with diffuse daylight, no people. Lush high-detail architectural photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "japanese-room",
+      "name": "Tatami morning",
+      "category": "Interiors",
+      "prompt": "Use case: photorealistic-natural. A serene traditional Japanese room with finely woven tatami, paper shoji screens glowing softly in morning light, low wooden table at an edge with a tea set, a restrained garden view, beautiful real wood grain, quiet open center. Architectural interior photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "record-room",
+      "name": "Vinyl evening",
+      "category": "Interiors",
+      "prompt": "Use case: photorealistic-natural. A warm intimate listening room, vintage turntable and textured vinyl records along one side, wooden speakers, soft amber floor lamp and comfortable chair, rain-dark window, restrained walnut and olive palette, calm central negative space. Rich detailed interior photography, no readable labels. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "artist-studio",
+      "name": "Artist’s studio",
+      "category": "Interiors",
+      "prompt": "Use case: photorealistic-natural. A peaceful sunlit artist studio with easel and unfinished abstract canvas near the left edge, ceramic jars of brushes, pigment stains, linen cloths and stacked sketchbooks low in frame, broad softly lit plaster wall and north-facing window. Detailed authentic interior photography, no people or legible text. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "night-train",
+      "name": "Night train",
+      "category": "Interiors",
+      "prompt": "Use case: photorealistic-natural. A cozy empty sleeper-train compartment at blue hour, large rain-streaked window with softly passing distant countryside lights, detailed upholstered seat, warm small reading lamp and folded wool blanket, a book on a side table. Quiet cinematic photographic realism. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "bookshop",
+      "name": "Bookshop afternoon",
+      "category": "Interiors",
+      "prompt": "Use case: photorealistic-natural. An intimate independent bookshop on a quiet afternoon, richly textured wooden shelves and hundreds of varied books with unreadable spines, a small window reading nook, warm pools of sunlight and soft dust motes, inviting central aisle, no people. Detailed natural interior photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "lofi-girl",
+      "name": "Lofi girl",
+      "category": "Illustrated",
+      "prompt": "Use case: illustration-story. An original adult anime-style young woman with headphones and a loose sage sweater, brown hair in a relaxed ponytail, studying quietly at a wooden desk beside a rain-speckled city window. She sits in the LEFT third, focused on writing in a notebook, surrounded by textbooks, pencils, a warm lamp and a tea mug. A sleeping cat near the lower right edge. Hand-painted detailed 2D lofi animation background, textured brushwork, muted olive and amber, beautiful soft evening light, calm window area in the central third. Natural anatomy. No logos or legible lettering. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "lofi-rooftop",
+      "name": "Lofi rooftop",
+      "category": "Illustrated",
+      "prompt": "Use case: illustration-story. A quiet rooftop garden above a softly glowing city at lavender dusk, string lights and potted plants along the edges, two empty chairs and a little low table near the lower left, layered rooftops, expansive calm sky. Highly detailed hand-painted 2D lofi animation background with delicate brush textures. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "cozy-cat",
+      "name": "Cat nap",
+      "category": "Illustrated",
+      "prompt": "Use case: illustration-story. A sleepy ginger cat curled on a knitted cushion at the lower right of a broad window seat, rainy garden through the window, books and ceramic tea cup at the left edge, warm soft morning light. Detailed hand-painted cozy 2D illustration, tactile knitted wool and fur, quiet open window middle. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "anime-seaside",
+      "name": "Seaside afternoon",
+      "category": "Illustrated",
+      "prompt": "Use case: illustration-story. A peaceful Japanese seaside railway crossing with no train, narrow coast road, small distant houses and a sparkling blue sea, delicate telephone wires near the edges and fluffy summer clouds. Highly detailed hand-painted 2D anime landscape, warm nostalgic summer light, muted blues and creams, open middle distance. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "floating-islands",
+      "name": "Floating islands",
+      "category": "Illustrated",
+      "prompt": "Use case: illustration-story. Dreamlike islands of lush grass and delicate trees floating above a sea of pale clouds, tiny waterfalls trailing from rocks, distant softly painted mountains, large calm sky in the middle. Exquisite hand-painted fantasy landscape, nuanced sage and pearl palette, rich miniature foliage detail. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "moon-garden",
+      "name": "Moon garden",
+      "category": "Illustrated",
+      "prompt": "Use case: illustration-story. A contemplative garden at night, a delicate crescent moon, softly luminous white flowers and fine grasses framing a still pond, a few fireflies, indigo and silver palette. Intricate hand-painted illustration with restrained light, calm open reflective center. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "storybook-cottage",
+      "name": "Storybook cottage",
+      "category": "Illustrated",
+      "prompt": "Use case: illustration-story. A small cozy cottage at the left edge of an enchanted woodland clearing, tiny warm-lit windows, climbing roses and detailed mossy stones, soft evening mist, a calm winding meadow through the middle. Richly textured hand-painted storybook illustration, gentle earthy greens and honey light. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "pixel-arcade",
+      "name": "Pixel after hours",
+      "category": "Illustrated",
+      "prompt": "Use case: illustration-story. A quiet empty arcade room after hours, beautifully crafted high-detail pixel art with crisp intentional pixel clusters, old game cabinets glowing softly along the edges, violet and teal reflections on a tiled floor, a calm dark middle aisle. Nostalgic cozy 16-bit aesthetic, no readable words or logos. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "venice",
+      "name": "Venice dawn",
+      "category": "Places",
+      "prompt": "Use case: photorealistic-natural. A quiet narrow Venetian canal at dawn, exquisite weathered ochre plaster and shuttered windows, still green-blue water reflecting buildings, one moored wooden boat near an edge, warm mist in the distance, no people. Refined high-detail travel photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "kyoto-rain",
+      "name": "Kyoto rain",
+      "category": "Places",
+      "prompt": "Use case: photorealistic-natural. An empty old Kyoto lane on a rainy evening, detailed dark wooden machiya facades, soft glowing paper lanterns without writing, wet stone paving and a few maple leaves, beautiful restrained warm amber against slate rain. Atmospheric cinematic travel photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "tokyo-night",
+      "name": "Tokyo after dark",
+      "category": "Places",
+      "prompt": "Use case: photorealistic-natural. A peaceful Tokyo side street late at night, finely detailed small storefront architecture and overhead utility lines, soft teal and muted magenta light reflected on wet pavement, no crowds, no cars in the middle, no legible signage. Restrained cinematic urban photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "santorini",
+      "name": "Aegean light",
+      "category": "Places",
+      "prompt": "Use case: photorealistic-natural. A quiet whitewashed Aegean terrace overlooking the sea, chalky textured walls, a small blue-domed roof far to the side, bougainvillea in the lower corner, hazy pale turquoise horizon and warm Mediterranean morning light. Fine-art architectural travel photography, no people. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "paris-morning",
+      "name": "Paris morning",
+      "category": "Places",
+      "prompt": "Use case: photorealistic-natural. A quiet Parisian street at soft early morning, detailed pale limestone facades, wrought-iron balconies and a small café terrace at the edge with empty woven chairs, gentle golden haze down an open central street, no legible signage or people. Natural elegant travel photography. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "silk",
+      "name": "Silk",
+      "category": "Abstract",
+      "prompt": "Use case: photorealistic-natural. An exquisite macro abstract composition of flowing ivory silk folds, highly detailed woven fibers in softly lit areas, gentle champagne and pearl shadows, broad graceful curves, a softly illuminated open center. Refined fine-art textile photography, serene and tactile. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "ink-wash",
+      "name": "Ink wash",
+      "category": "Abstract",
+      "prompt": "Use case: photorealistic-natural. A sophisticated abstract ink-wash landscape on textured handmade warm-white paper, delicate diluted indigo and sage pigment blooms at the edges, soft mountain-like forms, fine capillary feathering and visible paper fibers, broad calm pale center. Elegant tactile traditional watercolor and ink, no lettering. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "prism",
+      "name": "Prism light",
+      "category": "Abstract",
+      "prompt": "Use case: photorealistic-natural. Soft sunlight refracting through sculptural translucent glass, delicate pastel spectral bands and caustics across pale warm plaster, subtle fine material texture, spacious gentle composition with light cream center. Refined photorealistic abstract still life, restrained color, not neon. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    }
+  ]
+}

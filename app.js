@@ -1,4 +1,5 @@
 import { DEFAULTS, clamp, readPreferences, readSession, freshSession, milliseconds, nextAlarm, toggleSession, advanceSession, formatDuration, phaseName } from './time.js';
+import { THEMES, CATEGORIES, themeImage, themeThumbnail } from './themes.js';
 
 const $ = id => document.getElementById(id);
 const PREFS_KEY = 'rubato.preferences.v1', SESSION_KEY = 'rubato.session.v1';
@@ -12,9 +13,7 @@ let pendingMode = prefs.mode;
 let drag = null, noticeTimeout, settingsTimeout;
 const fonts = { serif:"Georgia, 'Times New Roman', serif", sans:"'DM Sans', sans-serif", mono:"'DM Mono', monospace", light:"Manrope, sans-serif" };
 const names = {stopwatch:'Stopwatch',timer:'Timer',pomodoro:'Pomodoro',alarm:'Alarm',clock:'Clock'};
-const themes = {alpine:'Alpine',forest:'Forest',stars:'Stars',dunes:'Dunes',paper:'Paper'};
-const themeImage = id => id === 'paper' ? '/assets/paper.svg' : `/assets/${id}-photo.webp`;
-const themeThumbnail = id => id === 'paper' ? '/assets/paper.svg' : `/assets/${id}-thumb.webp`;
+let requestedTheme = null;
 const box = $('timer-box');
 const canvas = document.createElement('canvas');
 const measure = canvas.getContext('2d');
@@ -25,12 +24,21 @@ function notify(message, duration=5000) {
   if (duration) noticeTimeout=setTimeout(()=>$('notification').hidden=true,duration);
 }
 function applyPreferences() {
-  $('landscape').style.backgroundImage=`url('${themeImage(prefs.theme)}')`;
+  if (requestedTheme !== prefs.theme) {
+    const id = prefs.theme;
+    requestedTheme = id;
+    const nextBackground = new Image();
+    nextBackground.src = themeImage(id);
+    nextBackground.decode().then(()=>{
+      if (requestedTheme === id) $('landscape').style.backgroundImage=`url('${themeImage(id)}')`;
+    }).catch(()=>{ if (requestedTheme === id) { requestedTheme = null; notify('This background could not load. Please try again.'); } });
+  }
   document.documentElement.style.setProperty('--timer-font',fonts[prefs.font]);
   document.documentElement.dataset.tone=prefs.tone;
   $('text-tone').value=prefs.tone;
   $('font').value=prefs.font; $('font-size').value=prefs.fontSize; $('size-label').textContent=`${prefs.fontSize} px`;
   document.querySelectorAll('[data-theme]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.theme===prefs.theme)));
+  updateThemeStatus();
   applyFrame(); render();
 }
 function applyFrame() {
@@ -134,11 +142,31 @@ document.addEventListener('pointerdown',event=>{
   if(!$('mode-menu').hidden&&!$('mode-menu').contains(event.target)&&!$('mode-trigger').contains(event.target))closeMode();
 });
 
-for(const [id,label] of Object.entries(themes)) {
-  const button=document.createElement('button'); button.className='theme-option';button.dataset.theme=id;button.setAttribute('aria-label',`${label} background`);
-  button.innerHTML=`<span class="swatch" style="background-image:url('${themeThumbnail(id)}')"></span><span class="theme-label">${label}</span>`;
+for(const {id,name,category} of THEMES) {
+  const button=document.createElement('button'); button.className='theme-option';button.dataset.theme=id;button.dataset.category=category;button.setAttribute('aria-label',`${name} background`);
+  button.innerHTML=`<img class="swatch" src="${themeThumbnail(id)}" alt="" loading="lazy" decoding="async" width="240" height="135"><span class="theme-label">${name}</span>`;
   button.addEventListener('click',()=>{prefs.theme=id;applyPreferences();save(PREFS_KEY,prefs);});$('theme-grid').append(button);
 }
+for (const category of CATEGORIES) {
+  const option=document.createElement('option');option.value=category;option.textContent=category;$('theme-category').append(option);
+}
+function updateThemeStatus() {
+  const count=Array.from($('theme-grid').children).filter(button=>!button.hidden).length;
+  const selected=THEMES.find(theme=>theme.id===prefs.theme);
+  $('theme-status').textContent=`${count} of ${THEMES.length} scenes · ${selected.name} selected`;
+  $('theme-empty').hidden=count!==0;
+}
+function filterThemes() {
+  const query=$('theme-search').value.trim().toLocaleLowerCase();
+  const category=$('theme-category').value;
+  for (const theme of THEMES) {
+    const button=$('theme-grid').querySelector(`[data-theme="${theme.id}"]`);
+    button.hidden=!!((category && theme.category!==category)||!`${theme.name} ${theme.id} ${theme.category}`.toLocaleLowerCase().includes(query));
+  }
+  $('theme-grid').scrollTop=0;updateThemeStatus();
+}
+$('theme-search').addEventListener('input',filterThemes);
+$('theme-category').addEventListener('change',filterThemes);
 function openSettings() {clearTimeout(settingsTimeout);$('settings-zone').classList.add('open');$('settings-panel').inert=false;$('edge-access').setAttribute('aria-expanded','true');}
 function closeSettings() {clearTimeout(settingsTimeout);$('settings-zone').classList.remove('open');$('settings-panel').inert=true;$('edge-access').setAttribute('aria-expanded','false');}
 $('settings-zone').addEventListener('pointerenter',event=>{if(event.pointerType==='mouse'&&!drag)openSettings();});
@@ -170,8 +198,17 @@ async function fullscreen() {
   } catch {notify('Fullscreen could not open. Try the fullscreen control again.');}
 }
 $('welcome-fullscreen').addEventListener('click',fullscreen);$('fullscreen').addEventListener('click',fullscreen);
+$('quick-fullscreen').addEventListener('pointerenter',closeSettings);
+$('quick-fullscreen').addEventListener('click',fullscreen);
 $('dismiss-welcome').addEventListener('click',dismissWelcome);
-document.addEventListener('fullscreenchange',()=>{$('fullscreen').firstChild.textContent=document.fullscreenElement?'Exit fullscreen ':'Fullscreen ';applyFrame();fitText();});
+document.addEventListener('fullscreenchange',()=>{
+  const active=!!document.fullscreenElement;
+  $('fullscreen').firstChild.textContent=active?'Exit fullscreen ':'Fullscreen ';
+  $('quick-fullscreen').querySelector('span').textContent=active?'Exit fullscreen':'Fullscreen';
+  $('quick-fullscreen').setAttribute('aria-label',active?'Exit fullscreen':'Enter fullscreen');
+  $('quick-fullscreen').title=active?'Exit fullscreen':'Enter fullscreen';
+  applyFrame();fitText();
+});
 $('dismiss-notification').addEventListener('click',()=>$('notification').hidden=true);
 
 box.addEventListener('pointerdown',event=>{
