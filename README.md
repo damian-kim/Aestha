@@ -22,7 +22,7 @@ Import this GitHub repository into Vercel. The included `vercel.json` sets `npm 
 - First visit: enter fullscreen or choose **Stay here**. Fullscreen remains available in settings.
 - Click the mode label to select and configure a mode. Applying a configuration resets the current session; an alarm is armed immediately.
 - Hover the display to reveal start, pause, reset, and subtle corner resize marks. Drag the time display to move it. There is no visible enclosing frame, even while resizing.
-- Hover anywhere in the bottom 100 pixels to reveal settings; the gear marks the region. On touch screens, tap the gear or the bottom 84 pixels. The first-visit invitation uses a smaller region to keep its buttons clear. Settings are also reachable through normal keyboard focus.
+- Click or tap the gear to toggle settings. Close them with the gear, close button, Escape, or a click outside the panel. Keyboard users can focus the gear and press Enter or Space. The subtle fullscreen icon beside it follows the selected text tone.
 - Browse 50 backgrounds using search and six categories: Nature, Space, Interiors, Illustrated, Places, and Abstract. The gallery scrolls inside settings. Small thumbnails load as needed; full backgrounds load only when selected.
 - Themes change only the background. Font size and Ink/Ivory text tone are independent preferences, so text can suit any position on a photograph. Font size adapts down when needed to fit the display. Ivory works well with the darker space and interior scenes.
 - Reset settings restores defaults; the temporary **Undo** action restores the previous configuration and session.

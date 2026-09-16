@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 const enter=async page=>{await page.goto('/');await page.getByRole('button',{name:'Stay here'}).click();};
-const settings=async page=>{await page.mouse.move(400,650);await expect(page.locator('#settings-zone')).toHaveClass(/open/);};
+const settings=async page=>{await page.locator('#edge-access').click();await expect(page.locator('#settings-zone')).toHaveClass(/open/);};
 test.use({ viewport:{width:1280,height:720} });
 test('first visit has fullscreen, then a centered frame and hidden settings',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');
@@ -14,10 +14,14 @@ test('first visit has fullscreen, then a centered frame and hidden settings',asy
   const b=await page.locator('#timer-box').boundingBox();expect(b.x+b.width/2).toBe(640);expect(b.y+b.height/2).toBe(360);
   await expect(page.locator('#settings-panel')).toHaveCSS('opacity','0');await page.reload();await expect(page.locator('#welcome')).toBeHidden();expect(errors).toEqual([]);
 });
-test('settings reveal on hover, save changes and disappear after interaction',async({page})=>{
-  await enter(page);await settings(page);await page.getByRole('button',{name:'Dunes background'}).click();await page.locator('#font').selectOption('mono');
+test('settings open only through the gear, save changes and close on outside click',async({page})=>{
+  await enter(page);await page.mouse.move(400,650);await page.mouse.click(400,650);
+  await page.locator('#edge-access').hover();await page.locator('#edge-access').focus();
+  await expect(page.locator('#edge-access')).toHaveAttribute('aria-expanded','false');
+  const gear=await page.locator('#edge-access').boundingBox();expect(gear.width).toBe(42);expect(gear.height).toBe(42);
+  await settings(page);await page.getByRole('button',{name:'Dunes background'}).click();await page.locator('#font').selectOption('mono');
   await page.screenshot({path:'test-results/settings-desktop.png'});
-  await page.mouse.move(10,10);await expect(page.locator('#settings-panel')).toHaveCSS('opacity','0');
+  await page.mouse.move(10,10);await expect(page.locator('#edge-access')).toHaveAttribute('aria-expanded','true');await page.mouse.click(10,10);await expect(page.locator('#settings-panel')).toHaveCSS('opacity','0');
   await page.reload();await expect(page.locator('#landscape')).toHaveCSS('background-image',/dunes/);await expect(page.locator('#font')).toHaveValue('mono');
 });
 test('stopwatch runs, pauses and survives reload',async({page})=>{

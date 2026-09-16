@@ -10,7 +10,7 @@ const savedPreferences = load(PREFS_KEY);
 let prefs = readPreferences(savedPreferences ?? load('aestha.preferences.v1'));
 let session = readSession(savedPreferences ? load(SESSION_KEY) : load('aestha.session.v1'),prefs);
 let pendingMode = prefs.mode;
-let drag = null, noticeTimeout, settingsTimeout;
+let drag = null, noticeTimeout;
 const fonts = { serif:"Georgia, 'Times New Roman', serif", sans:"'DM Sans', sans-serif", mono:"'DM Mono', monospace", light:"Manrope, sans-serif" };
 const names = {stopwatch:'Stopwatch',timer:'Timer',pomodoro:'Pomodoro',alarm:'Alarm',clock:'Clock'};
 let requestedTheme = null;
@@ -167,14 +167,12 @@ function filterThemes() {
 }
 $('theme-search').addEventListener('input',filterThemes);
 $('theme-category').addEventListener('change',filterThemes);
-function openSettings() {clearTimeout(settingsTimeout);$('settings-zone').classList.add('open');$('settings-panel').inert=false;$('edge-access').setAttribute('aria-expanded','true');}
-function closeSettings() {clearTimeout(settingsTimeout);$('settings-zone').classList.remove('open');$('settings-panel').inert=true;$('edge-access').setAttribute('aria-expanded','false');}
-$('settings-zone').addEventListener('pointerenter',event=>{if(event.pointerType==='mouse'&&!drag)openSettings();});
-$('settings-zone').addEventListener('pointerleave',event=>{if(event.pointerType==='mouse')settingsTimeout=setTimeout(closeSettings,220);});
-$('edge-access').addEventListener('focus',openSettings);
-$('edge-access').addEventListener('click',openSettings);
-$('settings-zone').addEventListener('focusout',()=>setTimeout(()=>{if(!$('settings-zone').contains(document.activeElement)&&!$('settings-zone').matches(':hover'))closeSettings();},0));
-$('close-settings').addEventListener('click',()=>{document.activeElement.blur();closeSettings();});
+function openSettings() {$('settings-zone').classList.add('open');$('settings-panel').inert=false;$('edge-access').setAttribute('aria-expanded','true');}
+function closeSettings() {$('settings-zone').classList.remove('open');$('settings-panel').inert=true;$('edge-access').setAttribute('aria-expanded','false');}
+$('edge-access').addEventListener('click',()=>{if($('settings-zone').classList.contains('open'))closeSettings();else openSettings();});
+document.addEventListener('pointerdown',event=>{if(!$('settings-zone').contains(event.target))closeSettings();});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&$('settings-zone').classList.contains('open')){closeSettings();$('edge-access').focus();}});
+$('close-settings').addEventListener('click',()=>{closeSettings();$('edge-access').focus();});
 $('font').addEventListener('change',()=>{prefs.font=$('font').value;applyPreferences();fitText();save(PREFS_KEY,prefs);});
 $('text-tone').addEventListener('change',()=>{prefs.tone=$('text-tone').value;applyPreferences();save(PREFS_KEY,prefs);});
 $('font-size').addEventListener('input',()=>{prefs.fontSize=Number($('font-size').value);$('size-label').textContent=`${prefs.fontSize} px`;fitText();save(PREFS_KEY,prefs);});
@@ -198,13 +196,11 @@ async function fullscreen() {
   } catch {notify('Fullscreen could not open. Try the fullscreen control again.');}
 }
 $('welcome-fullscreen').addEventListener('click',fullscreen);$('fullscreen').addEventListener('click',fullscreen);
-$('quick-fullscreen').addEventListener('pointerenter',closeSettings);
 $('quick-fullscreen').addEventListener('click',fullscreen);
 $('dismiss-welcome').addEventListener('click',dismissWelcome);
 document.addEventListener('fullscreenchange',()=>{
   const active=!!document.fullscreenElement;
   $('fullscreen').firstChild.textContent=active?'Exit fullscreen ':'Fullscreen ';
-  $('quick-fullscreen').querySelector('span').textContent=active?'Exit fullscreen':'Fullscreen';
   $('quick-fullscreen').setAttribute('aria-label',active?'Exit fullscreen':'Enter fullscreen');
   $('quick-fullscreen').title=active?'Exit fullscreen':'Enter fullscreen';
   applyFrame();fitText();
