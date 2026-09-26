@@ -1,15 +1,15 @@
 # rubato backgrounds
 
-The four photographic-style backgrounds were generated with the built-in image generation tool. They are original AI-generated scenery, not photographs of documented locations. Native outputs are 1672 × 941 pixels; the app serves high-quality WebP encodings without upscaling, plus small thumbnails so opening settings does not fetch every full background. Paper remains an SVG.
+The 52 photographic-style and illustrated backgrounds were generated with the built-in image generation tool, one image per scene. They are original AI-generated scenery, not photographs of documented locations. Native outputs are 1672 × 941 pixels; the app serves quality-93 WebP encodings without upscaling, plus small thumbnails so opening settings does not fetch every full background. Paper remains an SVG. The three NYC scenes show imagined views north over Central Park from Billionaires' Row in morning, autumn, and winter light.
 
-## Final project assets
+## Original four backgrounds
 
 - `assets/alpine-photo.webp` and `assets/alpine-thumb.webp`
 - `assets/forest-photo.webp` and `assets/forest-thumb.webp`
 - `assets/dunes-photo.webp` and `assets/dunes-thumb.webp`
 - `assets/stars-photo.webp` and `assets/stars-thumb.webp`
 
-To encode replacement PNGs, run `node scripts/prepare-backgrounds.mjs <source-directory>`. Input names match the `*-photo.png` convention. Original generated PNGs are retained in the image tool's generated-images folder.
+To encode replacement PNGs, run `node scripts/prepare-backgrounds.mjs --image path/to/image.png --theme theme-id`, or `node scripts/prepare-backgrounds.mjs --all path/to/directory` for a directory of `theme-id-photo.png` files. Original generated PNGs are retained in the image tool's generated-images folder. The original four prompts are below; prompts for the rest of the collection are in `design/background-prompts.json`.
 
 ## Final prompts
 

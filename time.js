@@ -3,16 +3,16 @@ export const MODES = ['stopwatch', 'timer', 'pomodoro', 'alarm', 'clock'];
 export const DEFAULTS = {
   theme: 'alpine', font: 'serif', fontSize: 112, tone: 'ink', mode: 'stopwatch',
   frame: { x: .5, y: .5, width: 510, height: 248 },
-  duration: 300, focus: 25, shortBreak: 5, longBreak: 15, autoAdvance: false,
+  duration: 300, focus: 25, shortBreak: 5, longBreak: 15, sound: 'chime',
   alarm: '07:00', clock24: false, seconds: true, welcomed: false,
 };
 export function clamp(value, min, max) { return Math.min(max, Math.max(min, value)); }
 export function readPreferences(raw) {
   const p = structuredClone(DEFAULTS);
   if (!raw || typeof raw !== 'object') return p;
-  for (const [key, values] of Object.entries({ theme: THEME_IDS, font: ['serif','sans','mono','light'], tone: ['ink','ivory'], mode: MODES })) if (values.includes(raw[key])) p[key] = raw[key];
+  for (const [key, values] of Object.entries({ theme: THEME_IDS, font: ['serif','sans','mono','light'], tone: ['ink','ivory'], mode: MODES, sound: ['chime','bell','gentle','digital','off'] })) if (values.includes(raw[key])) p[key] = raw[key];
   for (const [key, min, max] of [['fontSize',36,180],['duration',1,359999],['focus',1,180],['shortBreak',1,60],['longBreak',1,120]]) if (Number.isFinite(raw[key])) p[key] = clamp(raw[key], min, max);
-  for (const key of ['autoAdvance','clock24','seconds','welcomed']) if (typeof raw[key] === 'boolean') p[key] = raw[key];
+  for (const key of ['clock24','seconds','welcomed']) if (typeof raw[key] === 'boolean') p[key] = raw[key];
   if (typeof raw.alarm === 'string' && /^([01]\d|2[0-3]):[0-5]\d$/.test(raw.alarm)) p.alarm = raw.alarm;
   if (raw.frame && typeof raw.frame === 'object') for (const [key,min,max] of [['x',0,1],['y',0,1],['width',260,3000],['height',180,2000]]) if (Number.isFinite(raw.frame[key])) p.frame[key] = clamp(raw.frame[key],min,max);
   return p;
@@ -55,11 +55,7 @@ export function toggleSession(session, prefs, now) {
 export function advanceSession(session, prefs, now) {
   if (!session.running || ['stopwatch','clock'].includes(session.mode) || now < session.deadline) return {session, completed:false};
   const s = {...session};
-  if (s.mode === 'pomodoro' && prefs.autoAdvance) {
-    const cycle = Array.from({length:8},(_,i)=>phaseDuration(i,prefs)).reduce((a,b)=>a+b,0);
-    s.deadline += Math.floor((now-s.deadline)/cycle)*cycle;
-    do { s.phase=(s.phase+1)%8; s.remaining=phaseDuration(s.phase,prefs); s.deadline+=s.remaining; } while (s.deadline<=now);
-  } else { s.remaining=0; s.running=false; s.finished=true; }
+  s.remaining=0; s.running=false; s.finished=true;
   return {session:s, completed:true};
 }
 export function formatDuration(ms, ceil=false) {

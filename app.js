@@ -1,5 +1,6 @@
 import { DEFAULTS, clamp, readPreferences, readSession, freshSession, milliseconds, nextAlarm, toggleSession, advanceSession, formatDuration, phaseName } from './time.js';
 import { THEMES, CATEGORIES, themeImage, themeThumbnail } from './themes.js';
+import { prepareSound, playSound, stopSound } from './sound.js';
 
 const $ = id => document.getElementById(id);
 const PREFS_KEY = 'rubato.preferences.v1', SESSION_KEY = 'rubato.session.v1';
@@ -22,6 +23,15 @@ function persist() { save(PREFS_KEY,prefs); save(SESSION_KEY,session); }
 function notify(message, duration=5000) {
   clearTimeout(noticeTimeout); $('notification-text').textContent=message; $('notification').hidden=false;
   if (duration) noticeTimeout=setTimeout(()=>$('notification').hidden=true,duration);
+}
+function nextPomodoroLabel() {
+  if (session.phase % 2) return 'Start study';
+  return session.phase === 6 ? 'Start long break' : 'Start break';
+}
+function clearAlert() {
+  stopSound();
+  $('notification').hidden=true;
+  $('notification-action').hidden=true;
 }
 function applyPreferences() {
   if (requestedTheme !== prefs.theme) {
@@ -72,14 +82,14 @@ function render(now=Date.now()) {
     phase=session.running?`Set for ${new Date(session.deadline).toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'})}${suffix}`:session.finished?'Alarm reached':`Not set${suffix}`;
   } else {
     text=formatDuration(milliseconds(session,now),prefs.mode!=='stopwatch');
-    if (prefs.mode==='pomodoro') phase=`${phaseName(session.phase)}${session.finished?' · complete':''}`;
+    if (prefs.mode==='pomodoro') phase=session.finished ? `${phaseName(session.phase)} complete · waiting for you` : phaseName(session.phase);
     else if (session.finished) phase='Time is yours.';
   }
   if ($('time').textContent!==text) {$('time').textContent=text; fitText();}
   $('mode-label').textContent=names[prefs.mode]; $('phase').textContent=phase;
   box.dataset.finished=String(session.finished);
   $('timer-actions').hidden=prefs.mode==='clock';
-  const label=prefs.mode==='alarm'?(session.running?'Cancel alarm':session.finished?'Set again':'Set alarm'):session.running?'Pause':session.finished?(prefs.mode==='pomodoro'?'Next session':'Start again'):(session.elapsed>0 || (prefs.mode==='timer' && session.remaining<prefs.duration*1000))?'Resume':'Start';
+  const label=prefs.mode==='alarm'?(session.running?'Cancel alarm':session.finished?'Set again':'Set alarm'):session.running?'Pause':session.finished?(prefs.mode==='pomodoro'?nextPomodoroLabel():'Start again'):(session.elapsed>0 || (prefs.mode==='timer' && session.remaining<prefs.duration*1000))?'Resume':'Start';
   $('toggle').querySelector('span').textContent=label;
   $('toggle').querySelector('path').setAttribute('d',session.running?'M5 3v10M11 3v10':'m5 3 8 5-8 5Z');
   $('toggle').setAttribute('aria-label',`${label} ${prefs.mode}`);
@@ -93,12 +103,17 @@ function tick() {
   const advanced=advanceSession(session,prefs,now);
   if (advanced.completed) {
     session=advanced.session; save(SESSION_KEY,session);
-    notify(prefs.mode==='alarm'?'Your alarm time has arrived.':prefs.mode==='pomodoro'?(prefs.autoAdvance?`${phaseName(session.phase)} has begun.`:'Session complete. Take a moment.'):'Your timer is complete.',0);
+    const message=prefs.mode==='alarm'?'Your alarm time has arrived.':prefs.mode==='pomodoro'?`${phaseName(session.phase)} complete. ${nextPomodoroLabel()} when you are ready.`:'Your timer is complete.';
+    notify(message,0);
+    $('notification-action').hidden=prefs.mode!=='pomodoro';
+    $('notification-action').textContent=prefs.mode==='pomodoro'?nextPomodoroLabel():'';
+    playSound(prefs.sound,true);
   }
   render(now);
 }
-$('toggle').addEventListener('click',()=>{tick(); session=toggleSession(session,prefs,Date.now()); $('notification').hidden=true; persist(); render();});
-$('restart').addEventListener('click',()=>{session=freshSession(prefs); $('notification').hidden=true; persist(); render();});
+$('toggle').addEventListener('click',()=>{prepareSound().catch(()=>{});tick(); session=toggleSession(session,prefs,Date.now()); clearAlert(); persist(); render();});
+$('restart').addEventListener('click',()=>{session=freshSession(prefs); clearAlert(); persist(); render();});
+$('notification-action').addEventListener('click',()=>{session=toggleSession(session,prefs,Date.now());clearAlert();persist();render();});
 
 function showMode() {
   pendingMode=prefs.mode; $('mode-menu').hidden=false; $('mode-trigger').setAttribute('aria-expanded','true');
@@ -110,16 +125,22 @@ $('mode-trigger').addEventListener('click',()=>$('mode-menu').hidden?showMode():
 $('close-mode').addEventListener('click',()=>{closeMode();$('mode-trigger').focus();});
 document.querySelectorAll('[data-mode]').forEach(button=>button.addEventListener('click',()=>{pendingMode=button.dataset.mode;renderModeFields();}));
 const numberField=(label,id,value,max,min=0)=>`<label>${label}<input id="${id}" name="${id}" type="number" inputmode="numeric" min="${min}" max="${max}" step="1" required value="${value}"></label>`;
+const soundField=()=>`<div class="sound-field"><label for="alert-sound">Alert sound</label><select id="alert-sound"><option value="chime">Chime</option><option value="bell">Bell</option><option value="gentle">Gentle notes</option><option value="digital">Digital beep</option><option value="off">Off</option></select><button id="preview-sound" type="button" class="quiet-button">Preview</button></div>`;
 function renderModeFields() {
   document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===pendingMode)));
   $('mode-error').textContent='';
   let html='';
   if(pendingMode==='stopwatch') html='<p class="mode-description">Every moment, at your pace.<small>Count up from zero. Pause whenever you need.</small></p>';
   if(pendingMode==='timer') html=`<p class="mode-description">A little time, set aside.</p><div class="field-grid">${numberField('Hours','hours',Math.floor(prefs.duration/3600),99)}${numberField('Minutes','minutes',Math.floor(prefs.duration/60)%60,59)}${numberField('Seconds','seconds',prefs.duration%60,59)}</div>`;
-  if(pendingMode==='pomodoro') html=`<p class="mode-description">A rhythm for your day.</p><div class="field-grid">${numberField('Focus · min','focus',prefs.focus,180,1)}${numberField('Break · min','short-break',prefs.shortBreak,60,1)}${numberField('Long break · min','long-break',prefs.longBreak,120,1)}</div><label class="check-row"><input id="auto-advance" type="checkbox" ${prefs.autoAdvance?'checked':''}> Start the next session automatically</label><p class="intro-hint">A long break follows every fourth focus session.</p>`;
-  if(pendingMode==='alarm') html=`<p class="mode-description">A moment to come back to.</p><label class="alarm-field">Local alarm time<input id="alarm-time" type="time" required value="${prefs.alarm}"></label><p class="intro-hint" id="alarm-preview"></p><p class="intro-hint">A silent visual reminder. Keep this page open; sleeping devices and closed tabs cannot display an alarm.</p>`;
+  if(pendingMode==='pomodoro') html=`<p class="mode-description">A rhythm for your day.</p><div class="field-grid">${numberField('Focus · min','focus',prefs.focus,180,1)}${numberField('Break · min','short-break',prefs.shortBreak,60,1)}${numberField('Long break · min','long-break',prefs.longBreak,120,1)}</div><p class="intro-hint">A long break follows every fourth focus session. Each next session waits for your button press.</p>`;
+  if(pendingMode==='alarm') html=`<p class="mode-description">A moment to come back to.</p><label class="alarm-field">Local alarm time<input id="alarm-time" type="time" required value="${prefs.alarm}"></label><p class="intro-hint" id="alarm-preview"></p><p class="intro-hint">Keep this page open and your device awake so the alarm can sound.</p>`;
   if(pendingMode==='clock') html=`<p class="mode-description">Be here, now.<small>Your local time, with room to breathe.</small></p><label class="check-row"><input id="clock24" type="checkbox" ${prefs.clock24?'checked':''}> Use 24-hour time</label><label class="check-row"><input id="clock-seconds" type="checkbox" ${prefs.seconds?'checked':''}> Show seconds</label>`;
+  if(['timer','pomodoro','alarm'].includes(pendingMode)) html+=soundField();
   $('mode-fields').innerHTML=html;
+  if ($('alert-sound')) {
+    $('alert-sound').value=prefs.sound;
+    $('preview-sound').addEventListener('click',()=>playSound($('alert-sound').value));
+  }
   $('apply-mode').innerHTML=`${pendingMode==='alarm'?'Set alarm':pendingMode==='timer'?'Set timer':pendingMode==='pomodoro'?'Set Pomodoro':`Use ${pendingMode}`} <span>↗</span>`;
   if(pendingMode==='alarm') { const preview=()=>{if($('alarm-time').value) $('alarm-preview').textContent=`Next: ${new Date(nextAlarm($('alarm-time').value,Date.now())).toLocaleString(undefined,{weekday:'long',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}`;}; $('alarm-time').addEventListener('input',preview); preview(); }
 }
@@ -130,9 +151,12 @@ $('mode-form').addEventListener('submit',event=>{
     if(duration<=0) { $('mode-error').textContent='Choose a duration longer than zero.'; return; }
     prefs.duration=duration;
   }
-  if(pendingMode==='pomodoro') { prefs.focus=Number($('focus').value);prefs.shortBreak=Number($('short-break').value);prefs.longBreak=Number($('long-break').value);prefs.autoAdvance=$('auto-advance').checked; }
+  if(pendingMode==='pomodoro') { prefs.focus=Number($('focus').value);prefs.shortBreak=Number($('short-break').value);prefs.longBreak=Number($('long-break').value); }
   if(pendingMode==='alarm') prefs.alarm=$('alarm-time').value;
   if(pendingMode==='clock') {prefs.clock24=$('clock24').checked;prefs.seconds=$('clock-seconds').checked;}
+  if ($('alert-sound')) prefs.sound=$('alert-sound').value;
+  prepareSound().catch(()=>{});
+  clearAlert();
   // Applying a new configuration intentionally starts a fresh session.
   prefs.mode=pendingMode;session=freshSession(prefs);
   if(pendingMode==='alarm') session=toggleSession(session,prefs,Date.now());
@@ -205,7 +229,7 @@ document.addEventListener('fullscreenchange',()=>{
   $('quick-fullscreen').title=active?'Exit fullscreen':'Enter fullscreen';
   applyFrame();fitText();
 });
-$('dismiss-notification').addEventListener('click',()=>$('notification').hidden=true);
+$('dismiss-notification').addEventListener('click',clearAlert);
 
 box.addEventListener('pointerdown',event=>{
   if(event.button!==0||event.target.closest('button'))return;

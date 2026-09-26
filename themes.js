@@ -236,6 +236,21 @@ export const THEMES = [
     "category": "Places"
   },
   {
+    "id": "nyc-morning",
+    "name": "NYC · Park morning",
+    "category": "Places"
+  },
+  {
+    "id": "nyc-autumn",
+    "name": "NYC · Autumn skyline",
+    "category": "Places"
+  },
+  {
+    "id": "nyc-winter",
+    "name": "NYC · Winter lights",
+    "category": "Places"
+  },
+  {
     "id": "silk",
     "name": "Silk",
     "category": "Abstract"

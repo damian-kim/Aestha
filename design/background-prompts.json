@@ -270,6 +270,24 @@
       "name": "Prism light",
       "category": "Abstract",
       "prompt": "Use case: photorealistic-natural. Soft sunlight refracting through sculptural translucent glass, delicate pastel spectral bands and caustics across pale warm plaster, subtle fine material texture, spacious gentle composition with light cream center. Refined photorealistic abstract still life, restrained color, not neon. Asset type: immersive full-screen background for the minimalist timer website rubato. One complete scene, wide 16:9 landscape, highest available native resolution. Rich detail and nuanced natural texture; compose important subjects toward the outer thirds with a visually calm central region suitable for overlaid timer digits. Do not draw the digits or app. No UI, typography, watermarks, borders, collages, panels, or logos."
+    },
+    {
+      "id": "nyc-morning",
+      "name": "NYC · Park morning",
+      "category": "Places",
+      "prompt": "Use case: photorealistic-natural. Asset type: immersive full-screen background for minimalist timer website, wide 16:9 landscape, maximum available native resolution. Create ultra-detailed photorealistic aerial view of Central Park and Manhattan from a high floor on Billionaires' Row looking north during soft morning golden hour. The park's green treetops and paths fill lower half, tall Manhattan buildings frame both sides, believable skyline recedes into hazy distance, realistic warm light and fine architectural detail, premium editorial travel photograph. Spacious calm center for clock text. No UI, no lettering, no watermark."
+    },
+    {
+      "id": "nyc-autumn",
+      "name": "NYC · Autumn skyline",
+      "category": "Places",
+      "prompt": "Use case: photorealistic-natural. Asset type: immersive full-screen background for minimalist timer website, wide 16:9 landscape, maximum available native resolution. A breathtaking high-floor view from Manhattan's Billionaires' Row straight north over Central Park in peak autumn: rich amber, rust and gold canopy, Jacqueline Kennedy Onassis Reservoir in middle distance, Upper West Side and Upper East Side buildings along the park, distant skyline under clear cool late-afternoon sky. Premium fine-art architectural photography, authentic city scale, crisp individual building and tree details, natural lens and atmospheric depth, calm center for timer digits. No interior, text, UI, watermark or collage."
+    },
+    {
+      "id": "nyc-winter",
+      "name": "NYC · Winter lights",
+      "category": "Places",
+      "prompt": "Use case: photorealistic-natural. Asset type: immersive full-screen background for minimalist timer website, wide 16:9 landscape, maximum available native resolution. A cinematic realistic view north over Central Park from a very high apartment on Billionaires' Row at winter blue hour just after sunset. Snow-dusted park trees and paths, dark reservoir, illuminated Manhattan buildings on both sides, city lights fading to horizon under violet blue sky. Detailed editorial architecture photograph with believable geometry, nuanced reflected light and atmospheric depth. Uncluttered center for clock digits. No visible interior, no text, UI, watermark, collage or border."
     }
   ]
 }

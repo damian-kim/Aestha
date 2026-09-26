@@ -30,16 +30,24 @@ test('manual Pomodoro waits after completion, then moves to a break',()=>{
   assert.equal(s.finished,true);assert.equal(s.phase,0);
   s=toggleSession(s,p,1600000);assert.equal(s.phase,1);assert.equal(s.remaining,300000);
 });
-test('automatic Pomodoro advances across days without timer drift',()=>{
+test('Pomodoro never advances until the next start, including old auto settings',()=>{
   const p={...prefs('pomodoro'),autoAdvance:true};let s=toggleSession(freshSession(p),p,1000);
-  s=advanceSession(s,p,1501000).session;assert.equal(s.phase,1);assert.equal(s.deadline,1801000);
-  const cycle=(25*4+5*3+15)*60000;
-  s=advanceSession(s,p,1000+cycle*500+1500000+1000).session;
-  assert.equal(s.phase,1);assert.equal(s.deadline,1000+cycle*500+1800000);
+  s=advanceSession(s,p,1501000).session;
+  assert.equal(s.phase,0);assert.equal(s.finished,true);assert.equal(s.running,false);
+  assert.equal(advanceSession(s,p,1000+86400000).session.phase,0);
+  s=toggleSession(s,p,1000+86400000);
+  assert.equal(s.phase,1);assert.equal(s.remaining,5*60000);
 });
 test('fourth Pomodoro session leads to a long break',()=>{
-  const p={...prefs('pomodoro'),autoAdvance:true};let s=toggleSession(freshSession(p),p,1000);
-  s=advanceSession(s,p,1000+(25*4+5*3)*60000).session;
+  const p=prefs('pomodoro');let s=freshSession(p);let now=1000;
+  for(let phase=0;phase<7;phase++) {
+    s=toggleSession(s,p,now);
+    now+=s.remaining;
+    s=advanceSession(s,p,now).session;
+    assert.equal(s.phase,phase);
+    now+=1000;
+  }
+  s=toggleSession(s,p,now);
   assert.equal(s.phase,7);assert.equal(s.remaining,15*60000);
 });
 test('alarm selects tomorrow when the requested time has passed',()=>{
@@ -54,6 +62,7 @@ test('alarm completes after its target time, including refresh recovery',()=>{
 test('preferences sanitize malformed storage and keep defaults isolated',()=>{
   const p=readPreferences({theme:'bad',fontSize:999,frame:{x:NaN,width:-3},alarm:'99:00'});
   assert.equal(p.theme,'alpine');assert.equal(p.fontSize,180);assert.equal(p.frame.x,.5);assert.equal(p.frame.width,260);assert.equal(p.alarm,'07:00');
+  assert.equal(readPreferences({sound:'invalid'}).sound,'chime');
   p.frame.x=0;assert.equal(DEFAULTS.frame.x,.5);
   assert.deepEqual(readSession({mode:'timer',running:true},prefs('timer')),freshSession(prefs('timer')));
 });

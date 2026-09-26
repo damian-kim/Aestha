@@ -29,10 +29,19 @@ test('stopwatch runs, pauses and survives reload',async({page})=>{
   await expect(page.locator('#time')).toHaveText('01:05');await page.locator('#toggle').click();await page.clock.fastForward(10000);await expect(page.locator('#time')).toHaveText('01:05');
   await page.reload();await expect(page.locator('#time')).toHaveText('01:05');
 });
-test('countdown validates zero and completes silently',async({page})=>{
+test('countdown validates zero and offers an audible alert choice',async({page})=>{
   await page.clock.install();await enter(page);await page.locator('#mode-trigger').click();await page.locator('[data-mode="timer"]').click();await page.locator('#minutes').fill('0');await page.locator('#apply-mode').click();await expect(page.locator('#mode-error')).toContainText('longer than zero');
-  await page.locator('#seconds').fill('3');await page.locator('#apply-mode').click();await page.locator('#timer-box').hover();await page.locator('#toggle').click();await page.clock.fastForward(4000);
+  await page.locator('#seconds').fill('3');await page.locator('#alert-sound').selectOption('bell');await page.locator('#preview-sound').click();await page.locator('#apply-mode').click();await page.locator('#timer-box').hover();await page.locator('#toggle').click();await page.clock.fastForward(4000);
   await expect(page.locator('#time')).toHaveText('00:00');await expect(page.locator('#notification')).toContainText('timer is complete');
+  await page.locator('#dismiss-notification').click();await page.locator('#mode-trigger').click();await expect(page.locator('#alert-sound')).toHaveValue('bell');
+});
+test('Pomodoro waits for Start break and Start study',async({page})=>{
+  await page.clock.install();await enter(page);await page.locator('#mode-trigger').click();await page.locator('[data-mode="pomodoro"]').click();await page.locator('#focus').fill('1');await page.locator('#short-break').fill('1');await page.locator('#apply-mode').click();
+  await page.locator('#toggle').click();await page.clock.fastForward(61000);
+  await expect(page.locator('#notification-action')).toHaveText('Start break');await expect(page.locator('#toggle')).toContainText('Start break');
+  await page.clock.fastForward(120000);await expect(page.locator('#time')).toHaveText('00:00');await expect(page.locator('#notification-action')).toHaveText('Start break');
+  await page.locator('#notification-action').click();await expect(page.locator('#time')).toHaveText('01:00');
+  await page.clock.fastForward(61000);await expect(page.locator('#notification-action')).toHaveText('Start study');
 });
 test('modes configure Pomodoro, alarm and clock',async({page})=>{
   await enter(page);await page.locator('#mode-trigger').click();await page.locator('[data-mode="pomodoro"]').click();await page.locator('#focus').fill('30');await page.locator('#apply-mode').click();await expect(page.locator('#time')).toHaveText('30:00');
@@ -96,16 +105,18 @@ test('photographic themes load locally and preserve independent typography',asyn
   }
   await page.reload();await expect(page.locator('#text-tone')).toHaveValue('ivory');
 });
-test('50-scene gallery filters, searches, selects and remembers a new scene',async({page})=>{
-  await enter(page);await settings(page);await expect(page.locator('[data-theme]')).toHaveCount(50);
-  await expect(page.locator('#theme-status')).toContainText('50 of 50');
+test('53-scene gallery filters, searches, selects and remembers a new scene',async({page})=>{
+  await enter(page);await settings(page);await expect(page.locator('[data-theme]')).toHaveCount(53);
+  await expect(page.locator('#theme-status')).toContainText('53 of 53');
   await page.locator('#theme-category').selectOption('Space');await expect(page.locator('[data-theme]:visible')).toHaveCount(8);
   await page.locator('[data-theme="outer-space"]').click();await expect(page.locator('#landscape')).toHaveCSS('background-image',/outer-space-photo/);
   await page.locator('#theme-search').fill('Fuji');await expect(page.locator('#theme-empty')).toBeVisible();
   await page.locator('#theme-category').selectOption('');await expect(page.locator('[data-theme]:visible')).toHaveCount(1);
   await page.locator('[data-theme="mount-fuji"]').click();await expect(page.locator('#landscape')).toHaveCSS('background-image',/mount-fuji-photo/);
   await page.reload();await expect(page.locator('#landscape')).toHaveCSS('background-image',/mount-fuji-photo/);
-  await settings(page);await page.screenshot({path:'test-results/rubato-gallery-desktop.png'});
+  await settings(page);await page.locator('#theme-search').fill('NYC');await expect(page.locator('[data-theme]:visible')).toHaveCount(3);
+  await page.locator('[data-theme="nyc-autumn"]').click();await expect(page.locator('#landscape')).toHaveCSS('background-image',/nyc-autumn-photo/);
+  await page.screenshot({path:'test-results/rubato-gallery-desktop.png'});
 });
 test('fast switching keeps the last scene and does not fetch every full background',async({page})=>{
   const fullRequests=[];page.on('request',request=>{if(request.url().includes('-photo.webp'))fullRequests.push(request.url());});
